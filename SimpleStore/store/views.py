@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from models import Product, Order
 
-from django.contrib.auth import authenticate, login_required
+from django.contrib.auth import authenticate
 
-from django.contrib.auth.decorators import authenticate, login_required
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -13,7 +13,7 @@ def cartItems(cart):
 		items.append(Product.objects.get(id = item))
 	return items	
 
-def getItemsList(cart)	
+def getItemsList(cart):	
 	cart_items = cartItems(cart)
 	item_list = ""
 	for item in cart_items:
