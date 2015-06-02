@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from models import Product
+from models import Product, Order
 
 # Create your views here.
 
@@ -8,6 +8,14 @@ def cartItems(cart):
 	for item in cart:
 		items.append(Product.objects.get(id = item))
 	return items	
+
+def getItemsList(cart)	
+	cart_items = cartItems(cart)
+	item_list = ""
+	for item in cart_items:
+		item_list += str(item.name)
+		item_list += ","
+	return item_list	
 
 def priceCart(cart):
 	cart_items = cartItems(cart)
@@ -22,7 +30,7 @@ def catalog(request):
 	cart = request.session['cart']
 	request.session.set_expiry(0)	
 	store_items = Product.objects.all()
-	ctx = {'store_items': store_items, 'cart_items': len(cart)}
+	ctx = {'store_items': store_items, 'cart_size': len(cart)}
 
 	if request.method == "POST":
 		cart.append(int(request.POST['obj_id']))
@@ -41,3 +49,23 @@ def removefromcart(request):
 	obj_index = request.session['cart'].index(obj_to_remove)
 	request.session['cart'].pop(obj_index)
 	return redirect('cart')
+
+def checkout(request):
+	request.session.set_expiry(0)
+	cart = request.session['cart']
+	ctx = {'cart': cart, 'cart_size': len(cart), 'total_price': priceCart(cart)}
+	return render(request, "checkout.html", ctx)	
+
+def completeOrder(request):
+	request.session.set_expiry(0)
+	cart = request.session['cart']		
+	order = Order()
+	order.first_name = request.POST['first_name']
+	order.last_name = request.POST['last_name']
+	order.address = request.POST['address']
+	order.city = request.POST['city']
+	order.payment_method = request.POST['payment']
+	order.payment_data = request.POST['payment_data']
+	order.items = getItemsList(cart)
+	request.session['cart'] = []
+	return render(request, "complete_order.html", None)

@@ -11,7 +11,7 @@
 			<li><a href="/admin-login/">Admin Login</a></li>
 		</ul>	
 		<ul class = "nav navbar-nav navbar-right">
-			<li><a class = "navbar-brand" href="#">Cart: <b>{{cart_items}} Items </b></a></li>
+			<li><a class = "navbar-brand" href="#">Cart: <b>{{cart_size}} Items </b></a></li>
 			<li><a href="/cart/checkout/">Checkout</a></li>
 		</ul>	
 	</nav>
@@ -39,7 +39,7 @@
 		<div>
 			<h3>Total Price: <br> <br><span class = "label label-success">{{total_price}}</span></h3>
 			<br>
-			{% for item in cart_items %}
+			{% for item in cart_size %}
 			<div class = "media">
 				<a class = "pull-left" href="#">
 					<img class = "media-object imgscale" src={{item.imglink}}/>
