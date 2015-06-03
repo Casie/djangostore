@@ -43,7 +43,7 @@ def catalog(request):
 
 def cart(request):
 	cart = request.session['cart']
-	require.session.set_expiry(0)
+	request.session.set_expiry(0)
 	ctx = {'cart':cart, 'cart_size': len(cart), 'cart_items': cartItems(cart), 'total_price': priceCart(cart)}	
 	return render(request, "cart.html", ctx)
 
@@ -72,7 +72,7 @@ def completeOrder(request):
 	order.payment_data = request.POST['payment_data']
 	order.items = getItemsList(cart)
 	request.session['cart'] = []
-	return render(request, "complete_order.html", None)
+	return render(request, "complete-order.html", None)
 
 def adminLogin(request):
 	if request.method == "POST":
@@ -83,8 +83,8 @@ def adminLogin(request):
 			login(request, user)
 			return redirect("admin")
 		else:
-			return render(request, "admin_login", {'login':False})	
-	return render(request, "admin_login.html", None)		
+			return render(request, "admin-login", {'login':False})	
+	return render(request, "admin-login.html", None)		
 
 @login_required
 def adminDashboard(request):

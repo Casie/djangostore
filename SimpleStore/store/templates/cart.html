@@ -39,7 +39,7 @@
 		<div>
 			<h3>Total Price: <br> <br><span class = "label label-success">{{total_price}}</span></h3>
 			<br>
-			{% for item in cart_size %}
+			{% for item in cart_items %}
 			<div class = "media">
 				<a class = "pull-left" href="#">
 					<img class = "media-object imgscale" src={{item.imglink}}/>
@@ -50,12 +50,12 @@
 					</div>
 					<form method = "post" action = "remove/">
 						{% csrf_token %}
-						<input type = "hidden" name = "obj_id" value = {{item.id}}/>
+						<input type = "hidden" name = 'obj_id' value = {{item.id}}/>
 						<input type = "submit" value = "Remove" class "btn btn-danger pull-right">
 					</form>
 			</div>
-			{{% endfor %}}
-			<button class = "btn btn-success btn-lg" onclick = "window.location = 'cart/checkout';">Checkout</button>
+			{% endfor %}
+			<button class = "btn btn-success btn-lg" onclick = "window.location = '/cart/checkout';">Checkout</button>
 		</body>
 	</html>		
 					
